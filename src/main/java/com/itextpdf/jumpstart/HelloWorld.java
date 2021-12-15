@@ -9,10 +9,10 @@ import java.util.LinkedHashSet;
 
 public class HelloWorld {
 
-    public static final String DEST = "/Users/peterkratz/IdeaProjects/pdf_add_toc/output/";
-    public static final String FILE1 = "/Users/peterkratz/IdeaProjects/pdf_add_toc/input/9780820601762-1.pdf";
-    public static final String FILE2 = "/Users/peterkratz/IdeaProjects/pdf_add_toc/input/9780820601762-2.pdf";
-    public static final String FILE3 = "/Users/peterkratz/IdeaProjects/pdf_add_toc/input/9780820601762-3.pdf";
+    public static final String DEST = "./output/";
+    public static final String FILE1 = "./input/9780820601762-1.pdf";
+    public static final String FILE2 = "./input/9780820601762-2.pdf";
+    public static final String FILE3 = "./input/9780820601762-3.pdf";
 
     public static void main(String [] args) throws IOException{
         LinkedHashSet<String> inputPdfs = new LinkedHashSet<>();
