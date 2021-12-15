@@ -3,10 +3,9 @@ package com.itextpdf.jumpstart;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.kernel.utils.PdfMerger;
 
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
 
 import java.io.*;
+import java.util.LinkedHashSet;
 
 public class HelloWorld {
 
@@ -16,56 +15,27 @@ public class HelloWorld {
     public static final String FILE3 = "/Users/peterkratz/IdeaProjects/pdf_add_toc/input/9780820601762-3.pdf";
 
     public static void main(String [] args) throws IOException{
-        new HelloWorld().mergePdfs();
+        LinkedHashSet<String> inputPdfs = new LinkedHashSet<>();
+        inputPdfs.add(FILE1);
+        inputPdfs.add(FILE2);
+        inputPdfs.add(FILE3);
+        new HelloWorld().mergePdfs(inputPdfs);
     }
 
-    public void mergePdfs() throws IOException{
+    public void mergePdfs(LinkedHashSet<String> inputPdfs) throws IOException{
+        // change so that it uses accepts a list of pdfs and merges them instead of one by one
 
         PdfDocument pdf = new PdfDocument(new PdfWriter(DEST + "merged.pdf"));
         PdfMerger merger = new PdfMerger(pdf);
 
-        PdfDocument firstSourcePdf = new PdfDocument(new PdfReader(FILE1));
-        firstSourcePdf.getCatalog().getPdfObject().remove(PdfName.Outlines);
-        merger.merge(firstSourcePdf, 1, firstSourcePdf.getNumberOfPages());
+        for (String pdfName : inputPdfs) {
+            PdfDocument sourcePdf = new PdfDocument(new PdfReader(pdfName));
+            sourcePdf.getCatalog().getPdfObject().remove(PdfName.Outlines);
+            merger.merge(sourcePdf, 1, sourcePdf.getNumberOfPages());
+            sourcePdf.close();
+        }
 
-        PdfDocument secondSourcePdf = new PdfDocument(new PdfReader(FILE2));
-        secondSourcePdf.getCatalog().getPdfObject().remove(PdfName.Outlines);
-        merger.merge(secondSourcePdf, 1, secondSourcePdf.getNumberOfPages());
-
-        PdfDocument thirdSourcePdf = new PdfDocument(new PdfReader(FILE3));
-        thirdSourcePdf.getCatalog().getPdfObject().remove(PdfName.Outlines);
-        merger.merge(thirdSourcePdf, 1, thirdSourcePdf.getNumberOfPages());
-
-        firstSourcePdf.close();
-        secondSourcePdf.close();
-        thirdSourcePdf.close();
         pdf.close();
-
-    }
-
-    public void readPdf(String input_loc) throws IOException {
-
-        File fileConn = new File(FILE1);
-        InputStream inp = new FileInputStream(fileConn);
-        PdfReader reader = new PdfReader(inp);
-    }
-
-    public void createPdf(String destination) throws IOException{
-        // Initialize PDF Writer
-        FileOutputStream fos = new FileOutputStream(DEST);
-        PdfWriter writer = new PdfWriter(fos);
-
-        // Initialize PDF Document
-        PdfDocument pdf = new PdfDocument(writer);
-
-        // Initialize Document
-        Document document = new Document(pdf);
-
-        // Add paragraph to document
-        document.add(new Paragraph("Hello World!"));
-
-        // Close document
-        document.close();
 
     }
 
