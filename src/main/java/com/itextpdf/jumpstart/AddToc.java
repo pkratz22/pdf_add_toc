@@ -27,15 +27,12 @@ public class AddToc {
         inputPdfs.add(FILE2);
         inputPdfs.add(FILE3);
 
-        String mergedFileName = DEST + "merged.pdf";
-        String outputFileName = DEST + "output.pdf";
-
-        PdfDocument merged = pdfMergers.multiMerge(inputPdfs,  "./input/merged.pdf");
+        pdfMergers.multiMerge(inputPdfs,  "./input/merged.pdf");
 
         Toc toc = new Toc(TOCCSVFILE);
-        PdfDocument tocPdf = toc.writeStandaloneTocPdf(toc.tocFileContents);
+        toc.writeStandaloneTocPdf(toc.tocFileContents);
 
-        PdfDocument merged2 = pdfMergers.mergeAtLocation(DEST+"merged.pdf", TOCPDFFILE, INSERTLOCATION, OUTPUT);
+        pdfMergers.mergeAtLocation(DEST+"merged.pdf", TOCPDFFILE, INSERTLOCATION, OUTPUT);
 
     }
 }

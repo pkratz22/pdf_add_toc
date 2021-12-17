@@ -40,7 +40,7 @@ public class Toc {
         return r;
     }
 
-    public PdfDocument writeStandaloneTocPdf(List<String[]> tocFileContents) throws FileNotFoundException {
+    public void writeStandaloneTocPdf(List<String[]> tocFileContents) throws FileNotFoundException {
         PdfDocument pdf = new PdfDocument(new PdfWriter("./output/toc.pdf"));
         Document document = new Document(pdf);
 
@@ -52,7 +52,6 @@ public class Toc {
             document.add(p);
         }
         pdf.close();
-        return pdf;
     }
 
 }

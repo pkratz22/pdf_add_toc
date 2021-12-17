@@ -13,7 +13,7 @@ import java.util.LinkedHashSet;
 
 public final class pdfMergers {
 
-    public static PdfDocument multiMerge(LinkedHashSet<String> inputPdfs, String output) throws IOException {
+    public static void multiMerge(LinkedHashSet<String> inputPdfs, String output) throws IOException {
         PdfDocument pdf = new PdfDocument(new PdfWriter(output));
         PdfMerger merger = new PdfMerger(pdf);
 
@@ -24,10 +24,9 @@ public final class pdfMergers {
             sourcePdf.close();
         }
         pdf.close();
-        return pdf;
     }
 
-    public static PdfDocument mergeAtLocation(String mainPdfSource, String insertedPdfSource, int insertLocation, String output) throws IOException {
+    public static void mergeAtLocation(String mainPdfSource, String insertedPdfSource, int insertLocation, String output) throws IOException {
         PdfDocument pdf = new PdfDocument(new PdfWriter(output));
         PdfMerger merger = new PdfMerger(pdf);
 
@@ -41,7 +40,6 @@ public final class pdfMergers {
         mainPdf.close();
         insertedPdf.close();
         pdf.close();
-        return pdf;
     }
 
 }
