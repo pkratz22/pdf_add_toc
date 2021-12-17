@@ -26,7 +26,7 @@ public class AddToc {
         Toc toc = new Toc(TOCCSVFILE);
         toc.writeStandaloneTocPdf(toc.tocFileContents);
 
-        pdfMergers.mergeAtLocation(DEST+"merged.pdf", TOCPDFFILE, INSERTLOCATION, OUTPUT);
+        pdfMergers.mergeAtLocation("./input/merged.pdf", TOCPDFFILE, INSERTLOCATION, OUTPUT);
 
     }
 }
