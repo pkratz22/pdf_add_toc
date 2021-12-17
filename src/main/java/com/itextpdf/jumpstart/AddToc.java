@@ -1,13 +1,7 @@
 package com.itextpdf.jumpstart;
 
-import com.itextpdf.kernel.pdf.*;
-
 import java.io.*;
 import java.util.LinkedHashSet;
-
-import com.itextpdf.jumpstart.Toc;
-import com.itextpdf.jumpstart.pdfMergers;
-import com.itextpdf.jumpstart.pdfUtilities;
 
 public class AddToc {
 
