@@ -1,7 +1,6 @@
 package com.itextpdf.jumpstart;
 
 import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfName;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
 
@@ -14,18 +13,28 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
+
 public class pdfUtilities {
+
+    private static final Logger logger = LogManager.getLogger(pdfUtilities.class);
+
     public static PdfDocument getPdfFromFilepath(String pdfName) throws IOException {
         return new PdfDocument(new PdfReader(pdfName));
     }
 
     public static void deleteFile(String filePath){
         File file = new File(filePath);
-        file.delete();
+        if(file.delete()){
+            logger.info("Successfully deleted" + filePath);
+        }
+        else{
+            logger.warn("Unable to delete" + filePath);
+        }
     }
 
     public static PdfDocument createBlankDocumentWithLength(int length) throws FileNotFoundException {
-        PdfWriter writer = new PdfWriter("./input/temp.pdf");
         PdfDocument pdf = new PdfDocument(new PdfWriter("./input/temp.pdf"));
         Document document = new Document(pdf);
 
@@ -38,7 +47,7 @@ public class pdfUtilities {
     }
 
     public static PdfDocument rearrangePdf(String pdfSource, int firstPageFromCut, int lastPageFromCut, int insertLocation, String output) throws IOException {
-        PdfDocument pdf = new PdfDocument(new PdfWriter(output));
+        PdfDocument pdf = new PdfDocument(new PdfReader(pdfSource),new PdfWriter(output));
         PdfMerger merger = new PdfMerger(pdf);
 
         PdfDocument sourcePdf = new PdfDocument(new PdfReader(pdfSource));
@@ -101,9 +110,7 @@ public class pdfUtilities {
             }
         }
         sourcePdf.close();
-
         pdf.close();
-
         return pdf;
     }
 }

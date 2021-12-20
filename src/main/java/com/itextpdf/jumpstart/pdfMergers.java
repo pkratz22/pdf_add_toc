@@ -2,21 +2,12 @@ package com.itextpdf.jumpstart;
 
 
 import com.itextpdf.kernel.pdf.*;
-import com.itextpdf.kernel.pdf.canvas.parser.PdfDocumentContentParser;
-import com.itextpdf.kernel.pdf.canvas.parser.listener.TextMarginFinder;
 import com.itextpdf.kernel.pdf.navigation.PdfDestination;
 import com.itextpdf.kernel.utils.PdfMerger;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.layout.LayoutArea;
-import com.itextpdf.layout.layout.LayoutResult;
-import com.itextpdf.layout.property.AreaBreakType;
 import com.itextpdf.kernel.pdf.action.PdfAction;
 import com.itextpdf.layout.element.Link;
-import com.itextpdf.layout.property.UnitValue;
-import com.itextpdf.layout.renderer.DocumentRenderer;
 
 import java.io.IOException;
 import java.util.LinkedHashSet;
