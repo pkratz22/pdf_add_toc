@@ -1,0 +1,58 @@
+1. Create method to get length in pages of TOC
+2. Insert blank pages where TOC will go into PDF
+3. Add TOC onto blank pages and have them link to pages of book
+
+1. Clean up formatting for TOC
+2. Make TOC work with links and be formatted correctly
+3. Have intermediary steps live in memory instead of being written
+
+
+
+firstPageFromCut
+lastPageFromCut
+insertLocation
+numberOfPages
+
+
+if firstPageFromCut < insertLocation < lastPageFromCut:
+	if firstPageFromCut == 1:
+		merge (lastPageFromCut+1)-(lastPageFromCut+insertLocation)
+		merge firstPageFromCut-lastPageFromCut
+		merge (lastPageFromCut+insertLocation+1)-numberOfPages
+	else:
+		merge 1-(firstPageFromCut-1)
+		merge (lastPageFromCut+1)-(lastPageFromCut+insertLocation-firstPageFromCut)
+		merge firstPageFromCut-lastPageFromCut
+		merge (lastPageFromCut+insertLocation-firstPageFromCut+1)-numberOfPages
+else:
+	if firstPageFromCut == 1:
+		if insertLocation == numberOfPages:
+			merge (lastPageFromCut+1)-insertLocation
+			merge firstPageFromCut-lastPageFromCut
+		else if insertLocation < numberOfPages:
+			merge (lastPageFromCut+1)-insertLocation
+			merge firstPageFromCut-lastPageFromCut
+			merge (insertLocation+1)-numberOfPages
+	else:
+		if lastPageFromCut == numberOfPages:
+			if insertLocation == 0:
+				merge firstPageFromCut-lastPageFromCut
+				merge (insertLocation+1)-(firstPageFromCut-1)
+			else:
+				merge 1-insertLocation
+				merge firstPageFromCut-lastPageFromCut
+				merge (insertLocation+1)-(firstPageFromCut-1)
+		else:
+			if insertLocation == 0:
+				merge firstPageFromCut-lastPageFromCut
+				merge (insertLocation+1)-(firstPageFromCut-1)
+				merge (lastPageFromCut+1)-numberOfPages
+			else if insertLocation == numberOfPages:
+				merge 1-(firstPageFromCut-1)
+				merge (lastPageFromCut+1)-insertLocation
+				merge firstPageFromCut-lastPageFromCut
+			else:
+				merge 1-(firstPageFromCut-1)
+				merge (lastPageFromCut+1)-insertLocation
+				merge firstPageFromCut-lastPageFromCut
+				merge (insertLocation+1)-numberOfPages

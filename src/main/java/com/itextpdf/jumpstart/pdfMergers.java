@@ -1,13 +1,23 @@
 package com.itextpdf.jumpstart;
 
 
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfName;
-import com.itextpdf.kernel.pdf.PdfReader;
-import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.*;
+import com.itextpdf.kernel.pdf.canvas.parser.PdfDocumentContentParser;
+import com.itextpdf.kernel.pdf.canvas.parser.listener.TextMarginFinder;
+import com.itextpdf.kernel.pdf.navigation.PdfDestination;
 import com.itextpdf.kernel.utils.PdfMerger;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.AreaBreak;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.layout.LayoutArea;
+import com.itextpdf.layout.layout.LayoutResult;
+import com.itextpdf.layout.property.AreaBreakType;
+import com.itextpdf.kernel.pdf.action.PdfAction;
+import com.itextpdf.layout.element.Link;
+import com.itextpdf.layout.property.UnitValue;
+import com.itextpdf.layout.renderer.DocumentRenderer;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 
@@ -26,20 +36,21 @@ public final class pdfMergers {
         pdf.close();
     }
 
-    public static void mergeAtLocation(String mainPdfSource, String insertedPdfSource, int insertLocation, String output) throws IOException {
-        PdfDocument pdf = new PdfDocument(new PdfWriter(output));
-        PdfMerger merger = new PdfMerger(pdf);
+    public static PdfDocument mergeAtLocationWithLinks(String mainPdfSource, Toc toc, int insertLocation, String output) throws IOException{
+        PdfDocument pdf = new PdfDocument(new PdfReader(mainPdfSource), new PdfWriter(output));
+        final Document document = new Document(pdf);
+        Paragraph p;
+        PdfArray pdfArr;
 
-        PdfDocument mainPdf = new PdfDocument(new PdfReader(mainPdfSource));
-        PdfDocument insertedPdf = new PdfDocument(new PdfReader(insertedPdfSource));
-
-        merger.merge(mainPdf, 1, insertLocation);
-        merger.merge(insertedPdf, 1, insertedPdf.getNumberOfPages());
-        merger.merge(mainPdf, insertLocation + 1, mainPdf.getNumberOfPages());
-
-        mainPdf.close();
-        insertedPdf.close();
-        pdf.close();
+        for(String[] element : toc.tocFileContents){
+            pdfArr = new PdfArray();
+            pdfArr.add(document.getPdfDocument().getPage(Integer.parseInt(element[1]) + toc.tocPageLength).getPdfObject());
+            pdfArr.add(PdfName.Fit);
+            p = new Paragraph(new Link(element[0], PdfAction.createGoTo(PdfDestination.makeDestination(pdfArr))));
+            document.add(p);
+        }
+        document.close();
+        return pdf;
     }
 
 }
