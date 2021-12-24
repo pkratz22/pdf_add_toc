@@ -1,5 +1,6 @@
 package com.itextpdf.jumpstart;
 
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -36,8 +37,10 @@ public class Toc {
         return r;
     }
 
-    public int getTocPageLength(List<String[]> tocFileContents) throws FileNotFoundException {
-        PdfDocument pdf = new PdfDocument(new PdfWriter("./output/toc.pdf"));
+    public int getTocPageLength(List<String[]> tocFileContents){
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        
+        PdfDocument pdf = new PdfDocument(new PdfWriter(out));
         Document document = new Document(pdf);
 
         Paragraph p;
@@ -49,9 +52,8 @@ public class Toc {
             document.add(p);
 
         }
-        int pageLength = pdf.getNumberOfPages();
-        pdf.close();
-        return pageLength;
+        document.close();
+        return pdf.getNumberOfPages();
     }
 
 }
