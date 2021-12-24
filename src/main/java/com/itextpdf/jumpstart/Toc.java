@@ -52,7 +52,6 @@ public class Toc {
             document.add(p);
 
         }
-        document.close();
         return pdf.getNumberOfPages();
     }
 
