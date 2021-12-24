@@ -46,8 +46,6 @@ public class AddToc {
         //Delete superfluous files (later won't be necessary once actions are done in memory
         pdfUtilities.deleteFile("./input/temp.pdf");
         pdfUtilities.deleteFile("./input/temp2.pdf");
-        pdfUtilities.deleteFile("./output/unorderedPdfWithToc.pdf");
-        pdfUtilities.deleteFile("./output/toc.pdf");
     }
 
     public static PdfDocument writeToc(String pdfSource, Toc toc, String output) throws IOException{
