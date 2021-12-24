@@ -41,18 +41,18 @@ public class Toc {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         
         PdfDocument pdf = new PdfDocument(new PdfWriter(out));
-        Document document = new Document(pdf);
+        try (Document document = new Document(pdf)) {
+            Paragraph p;
+            for(String[] element : tocFileContents){
+                p = new Paragraph();
 
-        Paragraph p;
-        for(String[] element : tocFileContents){
-            p = new Paragraph();
-
-            p.add(element[0]);
-            p.add(element[1]);
-            document.add(p);
-
+                p.add(element[0]);
+                p.add(element[1]);
+                document.add(p);
+            }
+            return pdf.getNumberOfPages();
         }
-        return pdf.getNumberOfPages();
+
     }
 
 }
