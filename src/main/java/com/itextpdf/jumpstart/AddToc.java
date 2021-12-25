@@ -41,7 +41,7 @@ public class AddToc {
         pdfMergers.multiMerge(mergeWithBlankToc, "./input/temp2.pdf");
 
         //Write the table of contents
-        PdfDocument output = getPdfWithToc("./input/temp2.pdf", toc, TOCINSERTLOCATION);
+        PdfDocument output = getPdfWithToc("./input/temp2.pdf", toc);
 
         //Delete superfluous files (later won't be necessary once actions are done in memory
         pdfUtilities.deleteFile("./input/temp.pdf");
@@ -67,7 +67,7 @@ public class AddToc {
         return pdf;
     }
 
-    public static PdfDocument getPdfWithToc(String mainPdfSource, Toc toc, int insertLocation) throws IOException {
+    public static PdfDocument getPdfWithToc(String mainPdfSource, Toc toc) throws IOException {
         return writeToc(mainPdfSource, toc, OUTPUT);
     }
 }
