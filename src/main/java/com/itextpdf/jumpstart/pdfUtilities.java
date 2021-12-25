@@ -17,6 +17,8 @@ import java.nio.file.Paths;
 
 public class PdfUtilities {
 
+    private PdfUtilities(){}
+
     public static PdfDocument getPdfFromFilepath(String pdfName) throws IOException {
         return new PdfDocument(new PdfReader(pdfName));
     }

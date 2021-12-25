@@ -28,26 +28,26 @@ public class AddToc {
         inputPdfs.add(FILE1);
         inputPdfs.add(FILE2);
         inputPdfs.add(FILE3);
-        pdfMergers.multiMerge(inputPdfs,  "./input/merged.pdf");
+        PdfMergers.multiMerge(inputPdfs,  "./input/merged.pdf");
 
         //Next, read Table of Contents from CSV
         Toc toc = new Toc(TOCCSVFILE);
 
         //Add blank pages that will contain the table of contents
-        PdfDocument blankToc = pdfUtilities.createBlankDocumentWithLength(toc.tocPageLength);
+        PdfDocument blankToc = PdfUtilities.createBlankDocumentWithLength(toc.tocPageLength);
         LinkedHashSet<String> mergeWithBlankToc = new LinkedHashSet<>();
         mergeWithBlankToc.add("./input/temp.pdf");
         mergeWithBlankToc.add("./input/merged.pdf");
-        pdfMergers.multiMerge(mergeWithBlankToc, "./input/temp2.pdf");
+        PdfMergers.multiMerge(mergeWithBlankToc, "./input/temp2.pdf");
 
         //Write the table of contents
         PdfDocument output = getPdfWithToc("./input/temp2.pdf", toc);
 
         //Delete superfluous files (later won't be necessary once actions are done in memory
-        pdfUtilities.deleteFile("./input/temp.pdf");
-        pdfUtilities.deleteFile("./input/temp2.pdf");
-        pdfUtilities.deleteFile("./output/unorderedPdfWithToc.pdf");
-        pdfUtilities.deleteFile("./output/toc.pdf");
+        PdfUtilities.deleteFile("./input/temp.pdf");
+        PdfUtilities.deleteFile("./input/temp2.pdf");
+        PdfUtilities.deleteFile("./output/unorderedPdfWithToc.pdf");
+        PdfUtilities.deleteFile("./output/toc.pdf");
     }
 
     public static PdfDocument writeToc(String pdfSource, Toc toc, String output) throws IOException{

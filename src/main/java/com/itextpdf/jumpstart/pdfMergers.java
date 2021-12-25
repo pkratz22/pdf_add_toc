@@ -12,7 +12,9 @@ import com.itextpdf.layout.element.Link;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 
-public final class pdfMergers {
+public final class PdfMergers {
+
+    private PdfMergers(){}
 
     public static void multiMerge(LinkedHashSet<String> inputPdfs, String output) throws IOException {
         PdfDocument pdf = new PdfDocument(new PdfWriter(output));
