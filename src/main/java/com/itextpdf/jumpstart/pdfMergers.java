@@ -29,21 +29,23 @@ public final class PdfMergers {
         pdf.close();
     }
 
-    public static PdfDocument mergeAtLocationWithLinks(String mainPdfSource, Toc toc, int insertLocation, String output) throws IOException{
-        PdfDocument pdf = new PdfDocument(new PdfReader(mainPdfSource), new PdfWriter(output));
-        final Document document = new Document(pdf);
-        Paragraph p;
-        PdfArray pdfArr;
-
-        for(String[] element : toc.tocFileContents){
-            pdfArr = new PdfArray();
-            pdfArr.add(document.getPdfDocument().getPage(Integer.parseInt(element[1]) + toc.tocPageLength).getPdfObject());
-            pdfArr.add(PdfName.Fit);
-            p = new Paragraph(new Link(element[0], PdfAction.createGoTo(PdfDestination.makeDestination(pdfArr))));
-            document.add(p);
+    public static PdfDocument mergeAtLocationWithLinks(String mainPdfSource, Toc toc, String output) throws IOException{
+        try (PdfDocument pdf = new PdfDocument(new PdfReader(mainPdfSource), new PdfWriter(output))){
+            final Document document = new Document(pdf);
+            Paragraph p;
+            PdfArray pdfArr;
+    
+            for(String[] element : toc.tocFileContents){
+                pdfArr = new PdfArray();
+                pdfArr.add(document.getPdfDocument().getPage(Integer.parseInt(element[1]) + toc.tocPageLength).getPdfObject());
+                pdfArr.add(PdfName.Fit);
+                p = new Paragraph(new Link(element[0], PdfAction.createGoTo(PdfDestination.makeDestination(pdfArr))));
+                document.add(p);
+            }
+            document.close();
+            return pdf;
         }
-        document.close();
-        return pdf;
+        
     }
 
 }
