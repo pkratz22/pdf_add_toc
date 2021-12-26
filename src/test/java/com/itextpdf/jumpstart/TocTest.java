@@ -18,7 +18,7 @@ class TocTest {
     @Test
     void returnZeroPageLengthForBlankToc() throws java.io.IOException{
         Toc tocTest = new Toc("./input/toc2.csv");
-        assertEquals(1, tocTest.tocPageLength);
+        assertEquals(0, tocTest.tocPageLength);
     }
 
     @Test
