@@ -38,20 +38,21 @@ public class Toc {
 
     public int getTocPageLength(List<String[]> tocFileContents) throws FileNotFoundException {
         PdfDocument pdf = new PdfDocument(new PdfWriter("./output/toc.pdf"));
-        Document document = new Document(pdf);
-
-        Paragraph p;
-        for(String[] element : tocFileContents){
-            p = new Paragraph();
-
-            p.add(element[0]);
-            p.add(element[1]);
-            document.add(p);
-
+        
+        try (Document document = new Document(pdf)){
+            Paragraph p;
+            for(String[] element : tocFileContents){
+                p = new Paragraph();
+    
+                p.add(element[0]);
+                p.add(element[1]);
+                document.add(p);
+    
+            }
+            int pageLength = pdf.getNumberOfPages();
+            pdf.close();
+            return pageLength;
         }
-        int pageLength = pdf.getNumberOfPages();
-        pdf.close();
-        return pageLength;
     }
 
 }
