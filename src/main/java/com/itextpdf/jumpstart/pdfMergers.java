@@ -10,13 +10,13 @@ import com.itextpdf.kernel.pdf.action.PdfAction;
 import com.itextpdf.layout.element.Link;
 
 import java.io.IOException;
-import java.util.LinkedHashSet;
+import java.util.Set;
 
 public final class PdfMergers {
 
     private PdfMergers(){}
 
-    public static void multiMerge(LinkedHashSet<String> inputPdfs, String output) throws IOException {
+    public static void multiMerge(Set<String> inputPdfs, String output) throws IOException {
         PdfDocument pdf = new PdfDocument(new PdfWriter(output));
         PdfMerger merger = new PdfMerger(pdf);
 
