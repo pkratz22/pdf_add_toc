@@ -10,7 +10,6 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.kernel.pdf.action.PdfAction;
 import com.itextpdf.layout.element.Link;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Set;
 
