@@ -3,9 +3,9 @@ package com.itextpdf.jumpstart;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.IOException;
 import java.util.LinkedHashSet;
 
+import com.itextpdf.kernel.PdfException;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfReader;
 
@@ -16,7 +16,7 @@ class PdfMergersTest {
     @Test
     void throwExceptionForEmptySetInMultimerge() throws java.io.IOException{
         LinkedHashSet<String> inputPdfs = new LinkedHashSet<>();
-        assertThrows(IOException.class, () -> PdfMergers.multiMerge(inputPdfs, "./testing/testMultiMerge.pdf"));
+        assertThrows(PdfException.class, () -> PdfMergers.multiMerge(inputPdfs, "./testing/testMultiMerge.pdf"));
     }
 
     @Test
@@ -25,7 +25,7 @@ class PdfMergersTest {
         inputPdfs.add("./input/9780820601762-1.pdf");
         inputPdfs.add("./input/9780820601762-2.pdf");
         inputPdfs.add("");
-        assertThrows(IOException.class, () -> PdfMergers.multiMerge(inputPdfs, "./testing/testMultiMerge.pdf"));
+        assertThrows(com.itextpdf.io.IOException.class, () -> PdfMergers.multiMerge(inputPdfs, "./testing/testMultiMerge.pdf"));
     }
 
     @Test
