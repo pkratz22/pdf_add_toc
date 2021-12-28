@@ -1,4 +1,3 @@
-1. Rearranging PDF Pages removes links - find way to insert ToC at specific point with links
+1. Add logging whenever exceptions are thrown
 2. Have intermediary steps live in memory instead of writing files each time
-    A. Once the previous is done, can remove the delete file function in pdfUtilities.java
-3. Add logging functions
+3. Rearranging PDF pages or inserting ToC at specific location
