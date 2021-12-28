@@ -19,10 +19,6 @@ public class PdfUtilities {
 
     private PdfUtilities(){}
 
-    public static PdfDocument getPdfFromFilepath(String pdfName) throws IOException {
-        return new PdfDocument(new PdfReader(pdfName));
-    }
-
     public static void deleteFile(String filePath) throws IOException{
         Path path = Paths.get(filePath);
         Files.delete(path);
@@ -39,73 +35,5 @@ public class PdfUtilities {
         pdf.close();
         document.close();
         return pdf;
-    }
-
-    public static PdfDocument rearrangePdf(String pdfSource, int firstPageFromCut, int lastPageFromCut, int insertLocation, String output) throws IOException {
-        try (PdfDocument pdf = new PdfDocument(new PdfReader(pdfSource),new PdfWriter(output))) {
-            PdfMerger merger = new PdfMerger(pdf);
-
-            PdfDocument sourcePdf = new PdfDocument(new PdfReader(pdfSource));
-
-            if(firstPageFromCut <= insertLocation && insertLocation <= lastPageFromCut){
-                if(firstPageFromCut == 1){
-                    merger.merge(sourcePdf, lastPageFromCut+1, lastPageFromCut+insertLocation);
-                    merger.merge(sourcePdf, firstPageFromCut, lastPageFromCut);
-                    merger.merge(sourcePdf, lastPageFromCut+insertLocation+1, sourcePdf.getNumberOfPages());
-                }
-                else{
-                    merger.merge(sourcePdf, 1, firstPageFromCut-1);
-                    merger.merge(sourcePdf, lastPageFromCut+1, lastPageFromCut+insertLocation-firstPageFromCut);
-                    merger.merge(sourcePdf, firstPageFromCut, lastPageFromCut);
-                    merger.merge(sourcePdf, lastPageFromCut+insertLocation-firstPageFromCut+1, sourcePdf.getNumberOfPages());
-                }
-            }
-            else{
-                if(firstPageFromCut == 1){
-                    if(insertLocation == sourcePdf.getNumberOfPages()){
-                        merger.merge(sourcePdf, lastPageFromCut+1, insertLocation);
-                        merger.merge(sourcePdf, firstPageFromCut, lastPageFromCut);
-                    }
-                    else if(insertLocation < sourcePdf.getNumberOfPages()){
-                        merger.merge(sourcePdf, lastPageFromCut+1, insertLocation);
-                        merger.merge(sourcePdf, firstPageFromCut, lastPageFromCut);
-                        merger.merge(sourcePdf, insertLocation+1, sourcePdf.getNumberOfPages());
-                    }
-                }
-                else{
-                    if(lastPageFromCut == sourcePdf.getNumberOfPages()){
-                        if(insertLocation == 0){
-                            merger.merge(sourcePdf, firstPageFromCut, lastPageFromCut);
-                            merger.merge(sourcePdf, insertLocation+1, firstPageFromCut-1);
-                        }
-                        else{
-                            merger.merge(sourcePdf, 1, insertLocation);
-                            merger.merge(sourcePdf, firstPageFromCut, lastPageFromCut);
-                            merger.merge(sourcePdf, insertLocation+1, firstPageFromCut-1);
-                        }
-                    }
-                    else{
-                        if(insertLocation == 0){
-                            merger.merge(sourcePdf, firstPageFromCut, lastPageFromCut);
-                            merger.merge(sourcePdf, insertLocation+1, firstPageFromCut-1);
-                            merger.merge(sourcePdf, lastPageFromCut+1, sourcePdf.getNumberOfPages());
-                        }
-                        else if(insertLocation == sourcePdf.getNumberOfPages()){
-                            merger.merge(sourcePdf, 1, firstPageFromCut-1);
-                            merger.merge(sourcePdf, lastPageFromCut+1, insertLocation);
-                            merger.merge(sourcePdf, firstPageFromCut, lastPageFromCut);
-                        }
-                        else {
-                            merger.merge(sourcePdf, 1, firstPageFromCut - 1);
-                            merger.merge(sourcePdf, lastPageFromCut + 1, insertLocation);
-                            merger.merge(sourcePdf, firstPageFromCut, lastPageFromCut);
-                            merger.merge(sourcePdf, insertLocation + 1, sourcePdf.getNumberOfPages());
-                        }
-                    }
-                }
-            }
-            sourcePdf.close();
-            return pdf;
-        }
     }
 }
