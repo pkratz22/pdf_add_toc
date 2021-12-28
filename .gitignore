@@ -1,3 +1,6 @@
 # Project exclude paths
+/input/**
+/output/**
+/testing/**
 /target/
 .DS_Store
