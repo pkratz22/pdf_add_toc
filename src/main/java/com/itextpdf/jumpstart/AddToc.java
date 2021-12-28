@@ -52,14 +52,14 @@ public class AddToc {
         Toc toc = new Toc(TOCCSVFILE);
 
         //Add blank pages that will contain the table of contents
-        PdfDocument blankToc = PdfUtilities.createBlankDocumentWithLength(toc.tocPageLength, TEMPPATH1);
+        PdfUtilities.createBlankDocumentWithLength(toc.tocPageLength, TEMPPATH1);
         LinkedHashSet<String> mergeWithBlankToc = new LinkedHashSet<>();
         mergeWithBlankToc.add(TEMPPATH1);
         mergeWithBlankToc.add("./input/merged.pdf");
         PdfMergers.multiMerge(mergeWithBlankToc, TEMPPATH2);
 
         //Write the table of contents
-        PdfDocument output = writeToc(TEMPPATH2, toc, OUTPUT);
+        writeToc(TEMPPATH2, toc, OUTPUT);
 
         //Delete superfluous files (later won't be necessary once actions are done in memory
         PdfUtilities.deleteFile(TEMPPATH1);
