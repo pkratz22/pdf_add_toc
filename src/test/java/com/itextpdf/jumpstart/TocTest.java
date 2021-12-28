@@ -11,13 +11,13 @@ class TocTest {
     
     @Test
     void returnPositivePageLengthForNonblankToc() throws java.io.IOException{
-        Toc tocTest = new Toc("./input/toc.csv");
+        Toc tocTest = new Toc("./testing/toc.csv");
         assertEquals(3, tocTest.tocPageLength);
     }
 
     @Test
     void returnZeroPageLengthForBlankToc() throws java.io.IOException{
-        Toc tocTest = new Toc("./input/toc2.csv");
+        Toc tocTest = new Toc("./testing/toc2.csv");
         assertEquals(0, tocTest.tocPageLength);
     }
 

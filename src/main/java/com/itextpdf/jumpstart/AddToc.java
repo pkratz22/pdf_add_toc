@@ -20,8 +20,8 @@ public class AddToc {
     private static final String TEMPPATH1 = "./input/temp.pdf";
     private static final String TEMPPATH2 = "./input/temp2.pdf";
 
-    public static PdfDocument writeToc(String pdfSource, Toc toc) throws IOException{
-        try (PdfDocument pdf = new PdfDocument(new PdfReader(pdfSource), new PdfWriter(OUTPUT))){
+    public static PdfDocument writeToc(String pdfSource, Toc toc, String output) throws IOException{
+        try (PdfDocument pdf = new PdfDocument(new PdfReader(pdfSource), new PdfWriter(output))){
             final Document document = new Document(pdf);
             Paragraph p;
             PdfArray pdfArr;
@@ -59,7 +59,7 @@ public class AddToc {
         PdfMergers.multiMerge(mergeWithBlankToc, TEMPPATH2);
 
         //Write the table of contents
-        PdfDocument output = writeToc(TEMPPATH2, toc);
+        PdfDocument output = writeToc(TEMPPATH2, toc, OUTPUT);
 
         //Delete superfluous files (later won't be necessary once actions are done in memory
         PdfUtilities.deleteFile(TEMPPATH1);
