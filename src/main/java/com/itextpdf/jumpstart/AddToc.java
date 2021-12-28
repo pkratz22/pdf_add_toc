@@ -34,7 +34,7 @@ public class AddToc {
         Toc toc = new Toc(TOCCSVFILE);
 
         //Add blank pages that will contain the table of contents
-        PdfDocument blankToc = PdfUtilities.createBlankDocumentWithLength(toc.tocPageLength);
+        PdfDocument blankToc = PdfUtilities.createBlankDocumentWithLength(toc.tocPageLength, TEMPPATH1);
         LinkedHashSet<String> mergeWithBlankToc = new LinkedHashSet<>();
         mergeWithBlankToc.add(TEMPPATH1);
         mergeWithBlankToc.add("./input/merged.pdf");

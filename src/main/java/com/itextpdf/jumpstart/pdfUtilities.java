@@ -24,8 +24,8 @@ public class PdfUtilities {
         Files.delete(path);
     }
 
-    public static PdfDocument createBlankDocumentWithLength(int length) throws FileNotFoundException {
-        PdfDocument pdf = new PdfDocument(new PdfWriter("./input/temp.pdf"));
+    public static PdfDocument createBlankDocumentWithLength(int length, String filepath) throws FileNotFoundException, IndexOutOfBoundsException {
+        PdfDocument pdf = new PdfDocument(new PdfWriter(filepath));
         Document document = new Document(pdf);
 
         for(int i=0; i<length; i++){
