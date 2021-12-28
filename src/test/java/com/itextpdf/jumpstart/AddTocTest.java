@@ -29,6 +29,6 @@ class AddTocTest {
         AddToc.writeToc("./testing/testCreateToc.pdf", toc, "./testing/testCreateTocOutput.pdf");
         PdfDocument pdfInput = new PdfDocument(new PdfReader("./testing/testCreateToc.pdf"));
         PdfDocument pdfOutput = new PdfDocument(new PdfReader("./testing/testCreateTocOutput.pdf"));
-        assertEquals(pdfInput.getNumberOfPages() + toc.tocPageLength, pdfOutput.getNumberOfPages());
+        assertEquals(pdfInput.getNumberOfPages(), pdfOutput.getNumberOfPages());
     }
 }
