@@ -20,6 +20,24 @@ public class AddToc {
     private static final String TEMPPATH1 = "./input/temp.pdf";
     private static final String TEMPPATH2 = "./input/temp2.pdf";
 
+    public static PdfDocument writeToc(String pdfSource, Toc toc) throws IOException{
+        try (PdfDocument pdf = new PdfDocument(new PdfReader(pdfSource), new PdfWriter(OUTPUT))){
+            final Document document = new Document(pdf);
+            Paragraph p;
+            PdfArray pdfArr;
+    
+            for(String[] element : toc.tocFileContents){
+                pdfArr = new PdfArray();
+                pdfArr.add(document.getPdfDocument().getPage(Integer.parseInt(element[1]) + toc.tocPageLength).getPdfObject());
+                pdfArr.add(PdfName.Fit);
+                p = new Paragraph(new Link(element[0], PdfAction.createGoTo(PdfDestination.makeDestination(pdfArr))));
+                document.add(p);
+            }
+            document.close();
+            return pdf;
+        }
+    }
+
     //I have set up this main function to perform the tasks I need
     //In this case, it is to merge three PDFs and insert a Table of Contents from a CSV into a page number
     public static void main(String [] args) throws IOException {
@@ -41,34 +59,12 @@ public class AddToc {
         PdfMergers.multiMerge(mergeWithBlankToc, TEMPPATH2);
 
         //Write the table of contents
-        PdfDocument output = getPdfWithToc(TEMPPATH2, toc);
+        PdfDocument output = writeToc(TEMPPATH2, toc);
 
         //Delete superfluous files (later won't be necessary once actions are done in memory
         PdfUtilities.deleteFile(TEMPPATH1);
         PdfUtilities.deleteFile(TEMPPATH2);
         PdfUtilities.deleteFile("./output/unorderedPdfWithToc.pdf");
         PdfUtilities.deleteFile("./output/toc.pdf");
-    }
-
-    public static PdfDocument writeToc(String pdfSource, Toc toc, String output) throws IOException{
-        try (PdfDocument pdf = new PdfDocument(new PdfReader(pdfSource), new PdfWriter(output))){
-            final Document document = new Document(pdf);
-            Paragraph p;
-            PdfArray pdfArr;
-    
-            for(String[] element : toc.tocFileContents){
-                pdfArr = new PdfArray();
-                pdfArr.add(document.getPdfDocument().getPage(Integer.parseInt(element[1]) + toc.tocPageLength).getPdfObject());
-                pdfArr.add(PdfName.Fit);
-                p = new Paragraph(new Link(element[0], PdfAction.createGoTo(PdfDestination.makeDestination(pdfArr))));
-                document.add(p);
-            }
-            document.close();
-            return pdf;
-        }
-    }
-
-    public static PdfDocument getPdfWithToc(String mainPdfSource, Toc toc) throws IOException {
-        return writeToc(mainPdfSource, toc, OUTPUT);
     }
 }
