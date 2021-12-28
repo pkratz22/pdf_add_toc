@@ -20,36 +20,6 @@ public class AddToc {
     private static final String TEMPPATH1 = "./input/temp.pdf";
     private static final String TEMPPATH2 = "./input/temp2.pdf";
 
-    //I have set up this main function to perform the tasks I need
-    //In this case, it is to merge three PDFs and insert a Table of Contents from a CSV into a page number
-    public static void main(String [] args) throws IOException {
-        //First merge three volumes into one PDF
-        LinkedHashSet<String> inputPdfs = new LinkedHashSet<>();
-        inputPdfs.add(FILE1);
-        inputPdfs.add(FILE2);
-        inputPdfs.add(FILE3);
-        PdfMergers.multiMerge(inputPdfs,  "./input/merged.pdf");
-
-        //Next, read Table of Contents from CSV
-        Toc toc = new Toc(TOCCSVFILE);
-
-        //Add blank pages that will contain the table of contents
-        PdfDocument blankToc = PdfUtilities.createBlankDocumentWithLength(toc.tocPageLength);
-        LinkedHashSet<String> mergeWithBlankToc = new LinkedHashSet<>();
-        mergeWithBlankToc.add(TEMPPATH1);
-        mergeWithBlankToc.add("./input/merged.pdf");
-        PdfMergers.multiMerge(mergeWithBlankToc, TEMPPATH2);
-
-        //Write the table of contents
-        PdfDocument output = getPdfWithToc(TEMPPATH2, toc);
-
-        //Delete superfluous files (later won't be necessary once actions are done in memory
-        PdfUtilities.deleteFile(TEMPPATH1);
-        PdfUtilities.deleteFile(TEMPPATH2);
-        PdfUtilities.deleteFile("./output/unorderedPdfWithToc.pdf");
-        PdfUtilities.deleteFile("./output/toc.pdf");
-    }
-
     public static PdfDocument writeToc(String pdfSource, Toc toc, String output) throws IOException{
         try (PdfDocument pdf = new PdfDocument(new PdfReader(pdfSource), new PdfWriter(output))){
             final Document document = new Document(pdf);
@@ -68,7 +38,33 @@ public class AddToc {
         }
     }
 
-    public static PdfDocument getPdfWithToc(String mainPdfSource, Toc toc) throws IOException {
-        return writeToc(mainPdfSource, toc, OUTPUT);
+    //I have set up this main function to perform the tasks I need
+    //In this case, it is to merge three PDFs and insert a Table of Contents from a CSV into a page number
+    public static void main(String [] args) throws IOException {
+        //First merge three volumes into one PDF
+        LinkedHashSet<String> inputPdfs = new LinkedHashSet<>();
+        inputPdfs.add(FILE1);
+        inputPdfs.add(FILE2);
+        inputPdfs.add(FILE3);
+        PdfMergers.multiMerge(inputPdfs,  "./input/merged.pdf");
+
+        //Next, read Table of Contents from CSV
+        Toc toc = new Toc(TOCCSVFILE);
+
+        //Add blank pages that will contain the table of contents
+        PdfDocument blankToc = PdfUtilities.createBlankDocumentWithLength(toc.tocPageLength, TEMPPATH1);
+        LinkedHashSet<String> mergeWithBlankToc = new LinkedHashSet<>();
+        mergeWithBlankToc.add(TEMPPATH1);
+        mergeWithBlankToc.add("./input/merged.pdf");
+        PdfMergers.multiMerge(mergeWithBlankToc, TEMPPATH2);
+
+        //Write the table of contents
+        PdfDocument output = writeToc(TEMPPATH2, toc, OUTPUT);
+
+        //Delete superfluous files (later won't be necessary once actions are done in memory
+        PdfUtilities.deleteFile(TEMPPATH1);
+        PdfUtilities.deleteFile(TEMPPATH2);
+        PdfUtilities.deleteFile("./output/unorderedPdfWithToc.pdf");
+        PdfUtilities.deleteFile("./output/toc.pdf");
     }
 }
