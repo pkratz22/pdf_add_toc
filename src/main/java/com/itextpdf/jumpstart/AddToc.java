@@ -8,17 +8,8 @@ import com.itextpdf.layout.element.Link;
 import com.itextpdf.layout.element.Paragraph;
 
 import java.io.IOException;
-import java.util.LinkedHashSet;
 
 public class AddToc {
-
-    private static final String FILE1 = "./input/9780820601762-1.pdf";
-    private static final String FILE2 = "./input/9780820601762-2.pdf";
-    private static final String FILE3 = "./input/9780820601762-3.pdf";
-    private static final String TOCCSVFILE = "./input/toc.csv";
-    private static final String OUTPUT = "./output/output.pdf";
-    private static final String TEMPPATH1 = "./input/temp.pdf";
-    private static final String TEMPPATH2 = "./input/temp2.pdf";
 
     public static PdfDocument writeToc(String pdfSource, Toc toc, String output) throws IOException{
         try (PdfDocument pdf = new PdfDocument(new PdfReader(pdfSource), new PdfWriter(output))){
@@ -41,30 +32,8 @@ public class AddToc {
     //I have set up this main function to perform the tasks I need
     //In this case, it is to merge three PDFs and insert a Table of Contents from a CSV into a page number
     public static void main(String [] args) throws IOException {
-        //First merge three volumes into one PDF
-        LinkedHashSet<String> inputPdfs = new LinkedHashSet<>();
-        inputPdfs.add(FILE1);
-        inputPdfs.add(FILE2);
-        inputPdfs.add(FILE3);
-        PdfMergers.multiMerge(inputPdfs,  "./input/merged.pdf");
 
-        //Next, read Table of Contents from CSV
-        Toc toc = new Toc(TOCCSVFILE);
+        // Have left this empty - need to add implemention to let users select which files to use as pdf and csv
 
-        //Add blank pages that will contain the table of contents
-        PdfUtilities.createBlankDocumentWithLength(toc.tocPageLength, TEMPPATH1);
-        LinkedHashSet<String> mergeWithBlankToc = new LinkedHashSet<>();
-        mergeWithBlankToc.add(TEMPPATH1);
-        mergeWithBlankToc.add("./input/merged.pdf");
-        PdfMergers.multiMerge(mergeWithBlankToc, TEMPPATH2);
-
-        //Write the table of contents
-        writeToc(TEMPPATH2, toc, OUTPUT);
-
-        //Delete superfluous files (later won't be necessary once actions are done in memory
-        PdfUtilities.deleteFile(TEMPPATH1);
-        PdfUtilities.deleteFile(TEMPPATH2);
-        PdfUtilities.deleteFile("./output/unorderedPdfWithToc.pdf");
-        PdfUtilities.deleteFile("./output/toc.pdf");
     }
 }
