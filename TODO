@@ -1,3 +1,0 @@
-1. Add logging whenever exceptions are thrown
-2. Have intermediary steps live in memory instead of writing files each time
-3. Rearranging PDF pages or inserting ToC at specific location
