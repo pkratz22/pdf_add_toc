@@ -41,23 +41,16 @@ public class AddToc {
         JFileChooser csvChooser = new JFileChooser();
         FileNameExtensionFilter csvFilter = new FileNameExtensionFilter("CSV for Table of Contents", "csv");
         csvChooser.setFileFilter(csvFilter);
-        int csvReturnVal = csvChooser.showOpenDialog(null);
-        if(csvReturnVal == JFileChooser.APPROVE_OPTION) {
-            System.out.println("You chose to open this file: " + csvChooser.getSelectedFile().getAbsolutePath());
-        }
+        csvChooser.showOpenDialog(null);
 
         JFileChooser pdfChooser = new JFileChooser();
         FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter("PDF getting new table of contents", "pdf");
         pdfChooser.setFileFilter(pdfFilter);
-        int pdfReturnVal = pdfChooser.showOpenDialog(null);
-        if(pdfReturnVal == JFileChooser.APPROVE_OPTION) {
-            System.out.println("You chose to open this file: " + pdfChooser.getSelectedFile().getAbsolutePath());
-        }
+        pdfChooser.showOpenDialog(null);
 
         JFileChooser outputChooser = new JFileChooser();
         outputChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         outputChooser.showSaveDialog(null);
-        System.out.println("Save destination is: " + outputChooser.getCurrentDirectory());
 
         Toc toc = new Toc(csvChooser.getSelectedFile().getAbsolutePath());
         writeToc(pdfChooser.getSelectedFile().getAbsolutePath(), toc, outputChooser.getCurrentDirectory() + "/merged.pdf");
