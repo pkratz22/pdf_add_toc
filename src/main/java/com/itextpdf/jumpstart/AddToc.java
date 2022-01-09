@@ -35,8 +35,6 @@ public class AddToc {
         }
     }
 
-    //I have set up this main function to perform the tasks I need
-    //In this case, it is to merge three PDFs and insert a Table of Contents from a CSV into a page number
     public static void main(String [] args) throws IOException {
         JFileChooser csvChooser = new JFileChooser();
         FileNameExtensionFilter csvFilter = new FileNameExtensionFilter("CSV for Table of Contents", "csv");
