@@ -8,6 +8,7 @@ import com.itextpdf.layout.element.Link;
 import com.itextpdf.layout.element.Paragraph;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -16,20 +17,23 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class AddToc {
 
     public static PdfDocument writeToc(String pdfSource, Toc toc, String output) throws IOException{
-        try (PdfDocument pdf = new PdfDocument(new PdfReader(pdfSource), new PdfWriter(output))){
-            final Document document = new Document(pdf);
-            Paragraph p;
-            PdfArray pdfArr;
-    
-            for(String[] element : toc.tocFileContents){
-                pdfArr = new PdfArray();
-                pdfArr.add(document.getPdfDocument().getPage(Integer.parseInt(element[1]) + toc.tocPageLength).getPdfObject());
-                pdfArr.add(PdfName.Fit);
-                p = new Paragraph(new Link(element[0], PdfAction.createGoTo(PdfDestination.makeDestination(pdfArr))));
-                document.add(p);
+        try (PdfReader reader = new PdfReader(pdfSource)){
+            try (PdfWriter writer = new PdfWriter(output)){
+                PdfDocument pdf = new PdfDocument(reader, writer);
+                final Document document = new Document(pdf);
+                Paragraph p;
+                PdfArray pdfArr;
+        
+                for(String[] element : toc.tocFileContents){
+                    pdfArr = new PdfArray();
+                    pdfArr.add(document.getPdfDocument().getPage(Integer.parseInt(element[1]) + toc.tocPageLength).getPdfObject());
+                    pdfArr.add(PdfName.Fit);
+                    p = new Paragraph(new Link(element[0], PdfAction.createGoTo(PdfDestination.makeDestination(pdfArr))));
+                    document.add(p);
+                }
+                document.close();
+                return pdf;
             }
-            document.close();
-            return pdf;
         }
     }
 
@@ -41,7 +45,7 @@ public class AddToc {
         csvChooser.setFileFilter(csvFilter);
         int csvReturnVal = csvChooser.showOpenDialog(null);
         if(csvReturnVal == JFileChooser.APPROVE_OPTION) {
-            System.out.println("You chose to open this file: " + csvChooser.getSelectedFile().getName());
+            System.out.println("You chose to open this file: " + csvChooser.getSelectedFile().getAbsolutePath());
         }
 
         JFileChooser pdfChooser = new JFileChooser();
@@ -52,6 +56,6 @@ public class AddToc {
             System.out.println("You chose to open this file: " + pdfChooser.getSelectedFile().getAbsolutePath());
         }
         Toc toc = new Toc(csvChooser.getSelectedFile().getAbsolutePath());
-        writeToc(pdfChooser.getSelectedFile().getAbsolutePath(), toc, "/Users/peterkratz/IdeaProjects/output/output.pdf");
+        writeToc(pdfChooser.getSelectedFile().getAbsolutePath(), toc, "./output/output.pdf");
     }
 }
