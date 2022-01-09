@@ -53,7 +53,13 @@ public class AddToc {
         if(pdfReturnVal == JFileChooser.APPROVE_OPTION) {
             System.out.println("You chose to open this file: " + pdfChooser.getSelectedFile().getAbsolutePath());
         }
+
+        JFileChooser outputChooser = new JFileChooser();
+        outputChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        outputChooser.showSaveDialog(null);
+        System.out.println("Save destination is: " + outputChooser.getCurrentDirectory());
+
         Toc toc = new Toc(csvChooser.getSelectedFile().getAbsolutePath());
-        writeToc(pdfChooser.getSelectedFile().getAbsolutePath(), toc, "/Users/peterkratz/IdeaProjects/pdf_add_toc/output/merged.pdf");
+        writeToc(pdfChooser.getSelectedFile().getAbsolutePath(), toc, outputChooser.getCurrentDirectory() + "/merged.pdf");
     }
 }
