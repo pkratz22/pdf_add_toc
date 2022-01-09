@@ -7,8 +7,6 @@ import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Link;
 import com.itextpdf.layout.element.Paragraph;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
@@ -56,6 +54,6 @@ public class AddToc {
             System.out.println("You chose to open this file: " + pdfChooser.getSelectedFile().getAbsolutePath());
         }
         Toc toc = new Toc(csvChooser.getSelectedFile().getAbsolutePath());
-        writeToc(pdfChooser.getSelectedFile().getAbsolutePath(), toc, "./output/output.pdf");
+        writeToc(pdfChooser.getSelectedFile().getAbsolutePath(), toc, "/Users/peterkratz/IdeaProjects/pdf_add_toc/output/merged.pdf");
     }
 }
